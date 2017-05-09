@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.vorb</groupId>
+    <artifactId>dmp-wait-on-port-sample</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.20.1</version>
+
+                <configuration>
+                    <images>
+                        <image>
+                            <name>zookeeper:3.4</name>
+                            <alias>zookeeper</alias>
+                            <run>
+                                <wait>
+                                    <tcp>
+                                        <ports>
+                                            <port>2181</port>
+                                        </ports>
+                                    </tcp>
+                                    <time>5000</time>
+                                </wait>
+                                <log>
+                                    <prefix>ZOO</prefix>
+                                    <date>default</date>
+                                    <color>red</color>
+                                </log>
+                            </run>
+                        </image>
+                        <image>
+                            <name>ches/kafka:0.10.2.0</name>
+                            <alias>kafka</alias>
+                            <run>
+                                <links>
+                                    <link>zookeeper:zookeeper</link>
+                                </links>
+                                <dependsOn>
+                                    <container>zookeeper</container>
+                                </dependsOn>
+                                <wait>
+                                    <tcp>
+                                        <ports>
+                                            <port>9092</port>
+                                        </ports>
+                                    </tcp>
+                                    <time>10000</time>
+                                </wait>
+                                <log>
+                                    <prefix>KAF</prefix>
+                                    <date>default</date>
+                                    <color>blue</color>
+                                </log>
+                            </run>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
