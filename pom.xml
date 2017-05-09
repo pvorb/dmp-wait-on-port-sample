@@ -23,6 +23,7 @@
                             <run>
                                 <wait>
                                     <tcp>
+                                        <mode>direct</mode>
                                         <ports>
                                             <port>2181</port>
                                         </ports>
@@ -48,6 +49,7 @@
                                 </dependsOn>
                                 <wait>
                                     <tcp>
+                                        <mode>direct</mode>
                                         <ports>
                                             <port>9092</port>
                                         </ports>
