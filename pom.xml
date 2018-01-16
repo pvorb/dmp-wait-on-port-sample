@@ -13,7 +13,7 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.20.1</version>
+                <version>0.23.0</version>
 
                 <configuration>
                     <images>
@@ -21,13 +21,17 @@
                             <name>zookeeper:3.4</name>
                             <alias>zookeeper</alias>
                             <run>
+                                <ports>
+                                    <port>2181:2181</port>
+                                </ports>
                                 <wait>
                                     <tcp>
+                                        <mode>mapped</mode>
                                         <ports>
                                             <port>2181</port>
                                         </ports>
                                     </tcp>
-                                    <time>5000</time>
+                                    <time>60000</time>
                                 </wait>
                                 <log>
                                     <prefix>ZOO</prefix>
@@ -46,13 +50,17 @@
                                 <dependsOn>
                                     <container>zookeeper</container>
                                 </dependsOn>
+                                <ports>
+                                    <port>9092:9092</port>
+                                </ports>
                                 <wait>
                                     <tcp>
+                                        <mode>mapped</mode>
                                         <ports>
                                             <port>9092</port>
                                         </ports>
                                     </tcp>
-                                    <time>10000</time>
+                                    <time>60000</time>
                                 </wait>
                                 <log>
                                     <prefix>KAF</prefix>
